@@ -1,0 +1,7 @@
+2025-07-21 13:28:37,249 - tsu_test - DEBUG - start reboot start
+2025-07-21 13:28:37,268 - tsu_test - ERROR - '' 进程未启动
+2025-07-21 13:28:37,268 - tsu_test - DEBUG - -> reflash test
+2025-07-21 13:28:37,276 - tsu_test - ERROR - tsu_reflash err
+2025-07-21 13:28:37,276 - tsu_test - DEBUG - -> cellular test
+2025-07-21 13:28:37,284 - tsu_test - ERROR - cellular No startup
+2025-07-21 13:28:41,874 - tsu_test - ERROR - Adb connection failed

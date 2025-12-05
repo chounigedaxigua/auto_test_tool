@@ -1,0 +1,8 @@
+2025-07-18 11:27:58,864 - tsu_test - DEBUG - start reboot start
+2025-07-18 11:27:58,988 - tsu_test - ERROR - 'conf_service' 进程未启动
+2025-07-18 11:27:59,477 - tsu_test - ERROR - 'ota_5g' 进程未启动
+2025-07-18 11:27:59,862 - tsu_test - ERROR - 'ssr_agent' 进程未启动
+2025-07-18 11:28:00,021 - tsu_test - DEBUG - -> reflash test
+2025-07-18 11:28:00,042 - tsu_test - DEBUG - Reflash test successful
+2025-07-18 11:28:00,043 - tsu_test - DEBUG - -> cellular test
+2025-07-18 11:28:00,130 - tsu_test - ERROR - The dial status is wrong

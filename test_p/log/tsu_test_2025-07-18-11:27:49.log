@@ -1,0 +1,6 @@
+2025-07-18 11:27:49,121 - tsu_test - DEBUG - start reboot start
+2025-07-18 11:27:49,139 - tsu_test - ERROR - '' 进程未启动
+2025-07-18 11:27:49,139 - tsu_test - DEBUG - -> reflash test
+2025-07-18 11:27:49,148 - tsu_test - ERROR - tsu_reflash err
+2025-07-18 11:27:49,148 - tsu_test - DEBUG - -> cellular test
+2025-07-18 11:27:49,156 - tsu_test - ERROR - cellular No startup
