@@ -1,0 +1,141 @@
+
+#include "adb.h"
+#include "log.h"
+#include "power_manage.h"
+static gl_status_t process_query_func(char *input);
+
+// process_info_t process_info = {0};
+gl_status_t adb_shell_cmd(char * adb_cmd,adb_operation_t adb_operation)
+{
+    
+    char cmd[ADB_CMD_LENGTH] = {0};
+    gl_status_t adb_result = STATE_FAIL;
+    char out[ADB_CMD_OUT_LENGTH] = {0};
+    FILE *fp = NULL;
+    int i =0,err_num = 0,is_cmd_ok = 0;
+    memset(&process_info,0,sizeof(process_info));
+    sprintf(cmd,"adb shell \" %s\"",adb_cmd);
+    printf("%s\n",cmd);
+    fp = popen(cmd,"r");
+    //如果adb shell不成功,就进不了下面这个while
+    while(fgets(out,ADB_CMD_OUT_LENGTH,fp) > (char*)0)
+    {   
+        ++is_cmd_ok;
+        
+        // printf("%s",process_name[i-1]);
+        if(PROCESS_QUERY == adb_operation)
+        {
+            adb_result = process_query_func(out);
+            /* 错了之后的处理逻辑 */
+            if(adb_result != STATE_OK)
+            {
+                ++err_num;
+                strcpy(process_info.process_name[process_info.err_process_num++],out);
+            }
+                
+        }
+        memset(out,0,ADB_CMD_OUT_LENGTH);
+    }    
+    pclose(fp);
+    if(err_num && is_cmd_ok)
+    {
+        return PROCESS_QUERY_ERR;
+    }
+    if(!err_num && is_cmd_ok)
+    {
+        return STATE_OK;
+    }
+    return STATE_FAIL;
+}
+
+static gl_status_t process_query_func(char *input)
+{
+    char * p;
+    char temp[128] = {0};
+    int adb_result = -1;
+    char haha[256] = {0};
+    int err_num = 0;
+    p = input;memset(temp,0,strlen(temp));
+    for(int j=0;j<strlen(input);j++)
+    {
+        if(input[j] != '\n')temp[j] = input[j]; 
+    }
+    // printf("%s\n",temp);
+    sprintf(haha,"adb shell \"ps -ef|grep /oemapp/bin/%s|grep -v grep\"",temp);
+    // printf("%s\n",haha);
+    adb_result = system(haha);
+    if(adb_result == 256)
+    {
+        log_error("%s is not started\n",temp);
+        ++err_num;
+    }
+    else
+    {}
+    if(err_num)
+        return PROCESS_QUERY_ERR;
+    return STATE_OK;
+    // printf("-------------%d-------------\n",adb_result);
+}
+
+int adb_dev::connect(int timeout)
+{
+    int connect = 0;
+    if(timeout < 0)
+    {
+        return -1;
+    }
+    while(timeout--)
+    {
+        if( 0 == system("adb root"))
+        {
+            connect = 1;
+            is_connect = 1;
+            break;
+        }
+        else
+        {
+            is_connect = 0;
+        }
+        sleep(1);
+    }
+    return connect;
+}
+adb_dev::adb_dev()
+{
+    is_connect = 0;
+}
+int adb_dev::edl_enter()
+{
+    int adb_connected_flag = 0;
+    adb_connected_flag = connect(30);
+    if(!adb_connected_flag )
+    {
+        return -1;
+    }
+    sleep(15);
+    if(system("adb shell \"reboot edl\"") == 0)
+    {
+        log_debug("adb shell \"reboot edl\"");
+    }
+    sleep(30);
+    if(system("lsusb |grep 9008") == 0)
+    {
+        log_debug("Successfully entered 9008 mode");
+        return 0;
+    }
+    return -1;
+}
+int adb_dev::edl_out()
+{
+    int counter = 30;
+    power_restart();
+     while(--counter)
+    {
+        if(system("adb root") == 0)
+        {
+            return 0;
+        }
+        sleep(1);
+    }
+    return -1;
+}

@@ -1,0 +1,53 @@
+{
+    "case_count": 20,
+    "test_case_example": {
+        "case_type": "get",
+        "case_name": "example_test",
+        "where_to_run": "tsu",
+        "command": "ps -ef|grep sysctrl|grep -v grep",
+        "expected": "/oemapp/bin/sysctrl",
+        "min_curent": 5,
+        "max_enter_lpm_time": 600,
+        "max_weakup_time": 5,
+        "timeout": 10
+    },
+    "test_case_mcu_ver": {
+        "case_type": "check",
+        "case_name": "lpm_test",
+        "where_to_run": "tsu",
+        "command": "cat /data/run_info/mcu_ver.txt",
+        "expected": "G26V0.J04.25-T",
+        "timeout": 10
+    },
+    "test_case_soc_ver": {
+        "case_type": "get",
+        "case_name": "lpm_test",
+        "where_to_run": "tsu",
+        "command": "cat /etc/cx_version|grep version=",
+        "expected": "E27.21.0.300.396",
+        "timeout": 10
+    },
+    "tsu_update_soc": {
+        "case_type": "update",
+        "case_name": "soc_update",
+        "is_update": true,
+        "where_to_run": "raspberry",
+        "project_name": "3A0V",
+        "chip": "EEU",
+        "country": "EU"
+    },
+    "tsu_update_mcu": {
+        "case_type": "update",
+        "case_name": "mcu_update",
+        "is_update": true,
+        "where_to_run": "raspberry",
+        "project_name": "3A0V",
+        "chip": "EEU",
+        "country": "EU"
+    },
+    "low_power_test": {
+        "min_curent": 5,
+        "max_enter_lpm_time": 600,
+        "max_weakup_time":5
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "case_count": 20,
+    "test_case_example": {
+        
+        "case_type": "get/set/check/update",
+        "case_name": "test_case_example",
+        "cmd": "ps -ef|grep sysctrl|grep -v grep",
+        "expect": "/oemapp/bin/sysctrl",
+        "timeout": 10
+    },
+    "mcu_update": {
+        "is_update_mcu": true,
+        "country": "JP",
+        "project": "3BWT"
+    },
+    "soc_update": {
+        "is_update_soc": true,
+        "chip": "EEU",
+        "country": "EU"
+    },
+    "low_power_test": {
+        "min_curent": 5,
+        "max_enter_lpm_time": 600,
+        "max_weakup_time":5
+    }
+}
